@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "TD_PlayerController.generated.h"
+#include "PC_TD.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CPPTOWERDEFENSE_API ATD_PlayerController : public APlayerController
+class CPPTOWERDEFENSE_API APC_TD : public APlayerController
 {
 	GENERATED_BODY()
 

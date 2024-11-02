@@ -16,9 +16,5 @@ class CPPTOWERDEFENSE_API UGI_TD : public UGameInstance
 
 protected:
 	virtual void Init() override;
-
-private:
-	UPROPERTY()
-	int32 Money = 8;
 	
 };
