@@ -20,7 +20,7 @@ protected:
 	int32 CurrentMoney;
 
 public:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	int32 StartingMoney = 8;
 
     UFUNCTION(BlueprintCallable, Category = "Resources")

@@ -3,6 +3,8 @@
 
 #include "GM_TD.h"
 
+#include "Kismet/GameplayStatics.h"
+
 AGM_TD::AGM_TD()
 {
 	// Setup GameMode
@@ -15,4 +17,28 @@ AGM_TD::AGM_TD()
 void AGM_TD::BeginPlay()
 {
 	Super::BeginPlay();
+	Init();
 }
+
+void AGM_TD::Init()
+{
+	
+}
+
+void AGM_TD::OnLose()
+{
+	
+}
+
+void AGM_TD::StartWave()
+{
+	CurrentWave++;
+}
+
+void AGM_TD::EndWave()
+{
+	
+}
+
+
+

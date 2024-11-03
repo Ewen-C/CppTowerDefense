@@ -21,7 +21,28 @@ class CPPTOWERDEFENSE_API AGM_TD : public AGameModeBase
 public:
 	AGM_TD();
 
+	// Game Flow
+
+	UFUNCTION(BlueprintCallable, Category = "System")
+	void Init();
+
+	UFUNCTION(BlueprintCallable, Category = "System")
+	void OnLose();
+
+	UFUNCTION(BlueprintCallable, Category = "Game Loop")
+	void StartWave();
+
+	UFUNCTION(BlueprintCallable, Category = "Game Loop")
+	void EndWave();
+
 protected:
 	virtual void BeginPlay() override;
+
+	// Game state
+
+	bool WaveStarted = false;
+	int32 CurrentWave = 0;
+	int32 CurrentEnemyCount = 0;
+	
 	
 };
