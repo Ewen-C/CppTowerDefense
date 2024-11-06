@@ -3,17 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "PC_TD.generated.h"
+#include "Engine/GameInstance.h"
+#include "TDGameInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CPPTOWERDEFENSE_API APC_TD : public APlayerController
+class CPPTOWERDEFENSE_API UTDGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
 protected:
-	virtual void BeginPlay() override;	
+	virtual void Init() override;
+	
 };

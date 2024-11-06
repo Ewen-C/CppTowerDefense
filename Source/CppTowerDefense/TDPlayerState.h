@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
-#include "PS_TD.generated.h"
+#include "TDPlayerState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CPPTOWERDEFENSE_API APS_TD : public APlayerState
+class CPPTOWERDEFENSE_API ATDPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 

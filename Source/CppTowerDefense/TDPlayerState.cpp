@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PS_TD.h"
+#include "TDPlayerState.h"
 
 
-void APS_TD::BeginPlay()
+void ATDPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
 	CurrentMoney = StartingMoney;
