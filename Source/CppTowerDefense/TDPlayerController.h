@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
+#include "Camera/CameraActor.h"
 #include "TDPlayerController.generated.h"
 
 UCLASS()
@@ -48,15 +49,18 @@ protected:
 
     // Camera settings
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float CameraMoveSpeed = 1000.0f;
+    float CameraMoveSpeed = 15.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float CameraZoomSpeed = 100.0f;
+    float CameraZoomSpeed = 2.5f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
     float MinZoom = 500.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
     float MaxZoom = 2000.0f;
-	
+
+    // Cached actors
+    UPROPERTY()
+	ACameraActor* SceneCamera;
 };
