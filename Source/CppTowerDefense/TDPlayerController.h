@@ -21,23 +21,23 @@ protected:
     virtual void SetupInputComponent() override;
 
     // Input Mapping Context
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputMappingContext* MappingContextTD;
 
     // Input Actions
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputAction* MoveCameraAction;
 	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputAction* ZoomAction;
 	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputAction* SelectAction;
 	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputAction* CancelAction;
 	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Input")
     class UInputAction* PauseAction;
 	
     // Input Action handlers
@@ -48,17 +48,20 @@ protected:
     void HandlePause();
 
     // Camera settings
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float CameraMoveSpeed = 15.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Camera")
+    float CameraMoveSpeed = 12.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float CameraZoomSpeed = 2.5f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Camera")
+    float CameraZoomAmount = 20.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float MinZoom = 500.0f;
+    UPROPERTY()
+    int32 MinZoom = 1;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-    float MaxZoom = 2000.0f;
+    UPROPERTY()
+    int32 MaxZoom = 15;
+
+    UPROPERTY()
+    int32 CurrentZoom = 8;
 
     // Cached actors
     UPROPERTY()

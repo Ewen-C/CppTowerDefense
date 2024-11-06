@@ -56,16 +56,30 @@ void ATDPlayerController::SetupInputComponent()
 
 void ATDPlayerController::HandleMoveCamera(const FInputActionValue& InputValue) 
 {
-	UE_LOG(LogTemp, Warning, TEXT("HandleMoveCamera %s ! "), *InputValue.Get<FInputActionValue::Axis2D>().ToString());
-
 	FVector2D CameraMovement = InputValue.Get<FInputActionValue::Axis2D>() * CameraMoveSpeed;
+	UE_LOG(LogTemp, Warning, TEXT("HandleMoveCamera %s ! "), *CameraMovement.ToString());
 
 	SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() + FVector(CameraMovement, 0));
 }
 
 void ATDPlayerController::HandleZoom(const FInputActionValue& InputValue) 
 {
-	UE_LOG(LogTemp, Warning, TEXT("HandleZoom %f ! "), InputValue.GetMagnitude());
+	int ZoomDirection = InputValue.GetMagnitude();
+	UE_LOG(LogTemp, Warning, TEXT("HandleZoom %d ! "), ZoomDirection);
+
+	// Clamp to max & min
+	if((ZoomDirection > 0 && CurrentZoom == MaxZoom) || (ZoomDirection < 0 && CurrentZoom == MinZoom)) return;
+
+	if(ZoomDirection > 0)
+	{
+		CurrentZoom++;
+		SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() - FVector(-CameraZoomAmount, 0, CameraZoomAmount));
+	}
+	else
+	{
+		CurrentZoom--;
+		SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() + FVector(-CameraZoomAmount, 0, CameraZoomAmount));
+	}
 }
 
 void ATDPlayerController::HandleSelect() 
