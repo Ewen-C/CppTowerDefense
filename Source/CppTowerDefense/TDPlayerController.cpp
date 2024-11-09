@@ -2,11 +2,6 @@
 
 
 #include "TDPlayerController.h"
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
-#include "Kismet/GameplayStatics.h"
-#include "Containers/Array.h"
-
 
 ATDPlayerController::ATDPlayerController()
 {
@@ -19,8 +14,10 @@ void ATDPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Input setup
+
 	APlayerController* PlayerController = Cast<APlayerController>(this);
-	if (!(PlayerController && MappingContextTD)) return;
+	if (!(PlayerController && MappingContextTD)) UE_LOG(LogTemp, Fatal, TEXT("Failed input setup ! "));;
 	
     if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
 	    ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -31,6 +28,12 @@ void ATDPlayerController::BeginPlay()
     AActor* FoundActor = UGameplayStatics::GetActorOfClass(GetWorld(), ACameraActor::StaticClass());
 	SceneCamera = Cast<ACameraActor>(FoundActor);
 
+	// HUD setup
+
+    if (WidgetHud == nullptr) UE_LOG(LogTemp, Fatal, TEXT("No WidgetHud assigned ! "));
+
+	SpawnedWidget = CreateWidget(this, WidgetHud);
+	SpawnedWidget->AddToViewport();
 }
 
 
@@ -40,11 +43,7 @@ void ATDPlayerController::SetupInputComponent()
 
 	UEnhancedInputComponent* EIC = CastChecked<UEnhancedInputComponent>(InputComponent);
 
-    if (EIC == nullptr)
-    {
-    	UE_LOG(LogTemp, Fatal, TEXT("Failed to bind actions ! "));
-    	return;
-    }
+    if (EIC == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Failed to bind actions ! "));
 	
     // Binding all actions
     EIC->BindAction(MoveCameraAction, ETriggerEvent::Triggered, this, &ATDPlayerController::HandleMoveCamera);
@@ -58,6 +57,7 @@ void ATDPlayerController::HandleMoveCamera(const FInputActionValue& InputValue)
 {
 	FVector2D CameraMovement = InputValue.Get<FInputActionValue::Axis2D>() * CameraMoveSpeed;
 	UE_LOG(LogTemp, Warning, TEXT("HandleMoveCamera %s ! "), *CameraMovement.ToString());
+	CameraMovement *= 0.25 + (MaxZoom - CurrentZoom + 1) * 0.25; // Move slower when zoomed in
 
 	SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() + FVector(CameraMovement, 0));
 }
@@ -73,7 +73,7 @@ void ATDPlayerController::HandleZoom(const FInputActionValue& InputValue)
 	if(ZoomDirection > 0)
 	{
 		CurrentZoom++;
-		SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() - FVector(-CameraZoomAmount, 0, CameraZoomAmount));
+		SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() + FVector(CameraZoomAmount, 0, -CameraZoomAmount));
 	}
 	else
 	{

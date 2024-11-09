@@ -6,6 +6,10 @@
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
 #include "Camera/CameraActor.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
 #include "TDPlayerController.generated.h"
 
 UCLASS()
@@ -52,7 +56,7 @@ protected:
     float CameraMoveSpeed = 12.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Camera")
-    float CameraZoomAmount = 20.f;
+    float CameraZoomAmount = 22.f;
 
     UPROPERTY()
     int32 MinZoom = 1;
@@ -66,4 +70,11 @@ protected:
     // Cached actors
     UPROPERTY()
 	ACameraActor* SceneCamera;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Widgets")
+	TSubclassOf<UUserWidget> WidgetHud;
+
+    UPROPERTY()
+	UUserWidget* SpawnedWidget;
+	
 };
