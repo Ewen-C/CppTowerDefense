@@ -16,17 +16,20 @@ public:
 
 	// Game Flow
 
-	UFUNCTION(BlueprintCallable, Category = "System")
+	UFUNCTION()
 	void Init();
-
-	UFUNCTION(BlueprintCallable, Category = "System")
-	void OnLose();
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
+    int32 StartingMoney = 8;
 
 	UFUNCTION(BlueprintCallable, Category = "Game Loop")
 	void StartWave();
 
 	UFUNCTION(BlueprintCallable, Category = "Game Loop")
 	void EndWave();
+
+	UFUNCTION(BlueprintCallable, Category = "Game Loop")
+	void OnLose();
 
 protected:
 	virtual void BeginPlay() override;

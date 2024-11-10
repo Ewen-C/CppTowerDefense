@@ -13,15 +13,13 @@ class CPPTOWERDEFENSE_API ATDPlayerState : public APlayerState
 
 protected:
 	virtual void BeginPlay() override;
-	
+
+private:
 	int32 CurrentMoney;
 
 public:
-	UPROPERTY(BlueprintReadWrite)
-	int32 StartingMoney = 8;
-
     UFUNCTION(BlueprintCallable, Category = "Resources")
-    void AddMoney(int32 Amount) { if(Amount) CurrentMoney += Amount; }
+    void AddMoney(int32 Amount);
     
     UFUNCTION(BlueprintCallable, Category = "Resources")
     bool SpendMoney(int32 Amount) { if(CurrentMoney < Amount) return false; CurrentMoney -= Amount; return true; }
