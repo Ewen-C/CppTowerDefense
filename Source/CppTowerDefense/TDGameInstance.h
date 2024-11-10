@@ -6,9 +6,6 @@
 #include "Engine/GameInstance.h"
 #include "TDGameInstance.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CPPTOWERDEFENSE_API UTDGameInstance : public UGameInstance
 {

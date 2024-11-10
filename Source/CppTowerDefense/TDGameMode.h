@@ -6,9 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "TDGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 {
@@ -39,6 +36,5 @@ protected:
 	bool WaveStarted = false;
 	int32 CurrentWave = 0;
 	int32 CurrentEnemyCount = 0;
-	
 	
 };

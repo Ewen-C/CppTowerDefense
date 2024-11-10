@@ -6,9 +6,6 @@
 #include "GameFramework/PlayerState.h"
 #include "TDPlayerState.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CPPTOWERDEFENSE_API ATDPlayerState : public APlayerState
 {

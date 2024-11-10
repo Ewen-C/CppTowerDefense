@@ -23,22 +23,23 @@ void ATDGameMode::BeginPlay()
 
 void ATDGameMode::Init()
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::Init ! "));
 }
 
 void ATDGameMode::OnLose()
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::OnLose ! "));
 }
 
 void ATDGameMode::StartWave()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::StartWave ! "));
 	CurrentWave++;
 }
 
 void ATDGameMode::EndWave()
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::EndWave ! "));
 }
 
 
