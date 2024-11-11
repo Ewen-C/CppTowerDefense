@@ -14,8 +14,6 @@ class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 public:
 	ATDGameMode();
 
-	// Game Flow
-
 	UFUNCTION()
 	void Init();
 	
@@ -37,7 +35,7 @@ protected:
 	// Game state
 
 	bool WaveStarted = false;
-	int32 CurrentWave = 0;
+	int32 CurrentWaveNb = 0;
 	int32 CurrentEnemyCount = 0;
 	
 };

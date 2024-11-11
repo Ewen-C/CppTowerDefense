@@ -4,7 +4,6 @@
 #include "TDGameMode.h"
 #include "TDPlayerState.h"
 #include "TDPlayerController.h"
-#include "Kismet/GameplayStatics.h"
 
 ATDGameMode::ATDGameMode()
 {
@@ -34,7 +33,7 @@ void ATDGameMode::OnLose()
 void ATDGameMode::StartWave()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::StartWave ! "));
-	CurrentWave++;
+	CurrentWaveNb++;
 }
 
 void ATDGameMode::EndWave()

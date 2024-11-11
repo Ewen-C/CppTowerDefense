@@ -6,8 +6,19 @@
 #include "GameFramework/Pawn.h"
 #include "Enemy.generated.h"
 
+// Delegates - must be before the UCLASS ; NO MULTICAST -> Not exposed to BPs
+DECLARE_DYNAMIC_DELEGATE(FOnEnemyDeath);
+
+UENUM()
+enum class EEnemyType : uint8
+{
+	Fast,
+	Normal,
+	Boss
+};
+
 UCLASS()
-class CPPTOWERDEFENSE_API AEnemy : public APawn
+class CPPTOWERDEFENSE_API AEnemy : public AActor
 {
 	GENERATED_BODY()
 
@@ -23,7 +34,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+private:
+	virtual void Destroyed() override;
 
+	// Events
+	FOnEnemyDeath OnEnemyDeath;
 };

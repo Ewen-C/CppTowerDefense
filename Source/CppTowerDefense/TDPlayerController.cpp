@@ -12,7 +12,7 @@ ATDPlayerController::ATDPlayerController()
 
 void ATDPlayerController::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
 
 	// Input setup
 
@@ -36,16 +36,15 @@ void ATDPlayerController::BeginPlay()
 	SpawnedWidget->AddToViewport();
 }
 
-
 void ATDPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
 	UEnhancedInputComponent* EIC = CastChecked<UEnhancedInputComponent>(InputComponent);
-
     if (EIC == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Failed to bind actions ! "));
 	
-    // Binding all actions
+    // Bind all actions
+	
     EIC->BindAction(MoveCameraAction, ETriggerEvent::Triggered, this, &ATDPlayerController::HandleMoveCamera);
     EIC->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &ATDPlayerController::HandleZoom);
     EIC->BindAction(SelectAction, ETriggerEvent::Started, this, &ATDPlayerController::HandleSelect);
@@ -56,7 +55,6 @@ void ATDPlayerController::SetupInputComponent()
 void ATDPlayerController::HandleMoveCamera(const FInputActionValue& InputValue) 
 {
 	FVector2D CameraMovement = InputValue.Get<FInputActionValue::Axis2D>() * CameraMoveSpeed;
-	UE_LOG(LogTemp, Warning, TEXT("HandleMoveCamera %s ! "), *CameraMovement.ToString());
 	CameraMovement *= 0.25 + (MaxZoom - CurrentZoom + 1) * 0.25; // Move slower when zoomed in
 
 	SceneCamera->SetActorLocation(SceneCamera->GetActorLocation() + FVector(CameraMovement, 0));
@@ -64,8 +62,7 @@ void ATDPlayerController::HandleMoveCamera(const FInputActionValue& InputValue)
 
 void ATDPlayerController::HandleZoom(const FInputActionValue& InputValue) 
 {
-	int ZoomDirection = InputValue.GetMagnitude();
-	UE_LOG(LogTemp, Warning, TEXT("HandleZoom %d ! "), ZoomDirection);
+	const int ZoomDirection = InputValue.Get<FInputActionValue::Axis1D>();
 
 	// Clamp to max & min
 	if((ZoomDirection > 0 && CurrentZoom == MaxZoom) || (ZoomDirection < 0 && CurrentZoom == MinZoom)) return;
@@ -96,5 +93,4 @@ void ATDPlayerController::HandlePause()
 {
 	UE_LOG(LogTemp, Warning, TEXT("HandlePause ! "));
 }
-
 

@@ -25,10 +25,9 @@ void AEnemy::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AEnemy::Destroyed()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	OnEnemyDeath.Execute();
+	Super::Destroyed();
 }
 
