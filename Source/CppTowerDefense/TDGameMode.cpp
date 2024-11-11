@@ -12,6 +12,9 @@ ATDGameMode::ATDGameMode()
 	PlayerStateClass = ATDPlayerState::StaticClass();
 	PlayerControllerClass = ATDPlayerController::StaticClass();
 	DefaultPawnClass = nullptr;
+
+	if (DataTableEnemyStats == nullptr)
+		UE_LOG(LogTemp, Fatal, TEXT("No DataTableEnemyStats loaded !"));
 }
 
 void ATDGameMode::OnLose()
@@ -31,10 +34,12 @@ void ATDGameMode::StartWave()
 	CurrentWaveNb++;
 
 	// Get Wave data
+	// CurrentEnemyCount =
+
+	// If wave data has simultaneous spawn
 
 	// Start to spawn enemies
-
-	// CurrentEnemyCount = 
+	// DataTableEnemyStats->FindRow<FEnemyStats>(EnemyType, TEXT(""));
 }
 
 void ATDGameMode::EndWave()
@@ -42,6 +47,4 @@ void ATDGameMode::EndWave()
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::EndWave ! "));
 	OnWaveFinished.Broadcast();
 }
-
-
 

@@ -18,6 +18,9 @@ public:
 	ATDGameMode();
 	
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
+    UDataTable* DataTableEnemyStats;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
     int32 StartingMoney = 8;
 
 	UFUNCTION(BlueprintCallable, Category = "Game Loop")
