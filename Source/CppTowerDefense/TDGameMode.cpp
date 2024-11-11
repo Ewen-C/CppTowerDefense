@@ -14,31 +14,33 @@ ATDGameMode::ATDGameMode()
 	DefaultPawnClass = nullptr;
 }
 
-void ATDGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-	Init();
-}
-
-void ATDGameMode::Init()
-{
-	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::Init ! "));
-}
-
 void ATDGameMode::OnLose()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::OnLose ! "));
+}
+
+void ATDGameMode::DecrementEnemyCount()
+{
+	CurrentEnemyCount--;
+	if(!CurrentEnemyCount) EndWave();
 }
 
 void ATDGameMode::StartWave()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::StartWave ! "));
 	CurrentWaveNb++;
+
+	// Get Wave data
+
+	// Start to spawn enemies
+
+	// CurrentEnemyCount = 
 }
 
 void ATDGameMode::EndWave()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::EndWave ! "));
+	OnWaveFinished.Broadcast();
 }
 
 

@@ -27,7 +27,12 @@ void AEnemy::Tick(float DeltaTime)
 
 void AEnemy::Destroyed()
 {
-	OnEnemyDeath.Execute();
+	if(ATDGameMode* Gm_Td = Cast<ATDGameMode>(GetWorld()->GetAuthGameMode()))
+		Gm_Td->DecrementEnemyCount();
+	else
+		UE_LOG(LogTemp, Fatal, TEXT("Can't get GameMode in Enemy ! "));;
+		
 	Super::Destroyed();
+	
 }
 

@@ -4,10 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "CppTowerDefense/TDGameMode.h"
 #include "Enemy.generated.h"
-
-// Delegates - must be before the UCLASS ; NO MULTICAST -> Not exposed to BPs
-DECLARE_DYNAMIC_DELEGATE(FOnEnemyDeath);
 
 UENUM()
 enum class EEnemyType : uint8
@@ -15,6 +13,30 @@ enum class EEnemyType : uint8
 	Fast,
 	Normal,
 	Boss
+};
+
+USTRUCT(BlueprintType)
+struct FEnemyStats : public FTableRowBase  // DataTable -> Inherit from FTableRowBase
+{
+	GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	EEnemyType Type = EEnemyType::Normal;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float MaxHeath = 10.f;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float Damage = 1.f;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float MovementSpeed = 5.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+    int32 MoneyReward = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+	TSoftObjectPtr<UMaterialInterface> EnemyMaterial;
 };
 
 UCLASS()
@@ -36,7 +58,4 @@ public:
 
 private:
 	virtual void Destroyed() override;
-
-	// Events
-	FOnEnemyDeath OnEnemyDeath;
 };
