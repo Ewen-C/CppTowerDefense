@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TDGameMode.h"
 #include "TDPlayerState.h"
+#include "TDGameMode.h"
 
 
 void ATDPlayerState::BeginPlay()
@@ -12,7 +12,7 @@ void ATDPlayerState::BeginPlay()
 	if(const ATDGameMode* Gm_Td = Cast<ATDGameMode>(GetWorld()->GetAuthGameMode()))
 		AddMoney(Gm_Td->StartingMoney);
 	else
-		UE_LOG(LogTemp, Fatal, TEXT("Can't get GameMode in TDPlayerState ! "));
+		UE_LOG(LogTemp, Error, TEXT("Can't get GameMode in TDPlayerState ! "));
 }
 
 void ATDPlayerState::AddMoney(const int32 Amount)

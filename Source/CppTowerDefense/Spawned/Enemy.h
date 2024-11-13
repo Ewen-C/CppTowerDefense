@@ -22,10 +22,18 @@ protected:
 
 	EEnemyType MyEnemyType;
 
+    float DistanceAlongSpline = 0.0f;
+	
+	UPROPERTY() 
+    USplineComponent* PathToFollow;
+
+    UFUNCTION()
+    void PathEndReached();
+
+	UFUNCTION()
+	void Die();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-private:
-	virtual void Destroyed() override;
 };

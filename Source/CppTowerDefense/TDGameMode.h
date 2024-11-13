@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Spawned/TDWaveManager.h"
 #include "TDGameMode.generated.h"
 
 // Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
@@ -16,9 +17,6 @@ class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 
 public:
 	ATDGameMode();
-	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
-    UDataTable* DataTableEnemyStats;
 	
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
     int32 StartingMoney = 8;
@@ -40,9 +38,9 @@ public:
 
 protected:
 	// Game state
-
-	bool WaveStarted = false;
-	int32 CurrentWaveNb = 0;
-	int32 CurrentEnemyCount = 0;
+	bool WaveOngoing = false;
+	
+    UPROPERTY()
+    ATDWaveManager* WaveManager;
 	
 };

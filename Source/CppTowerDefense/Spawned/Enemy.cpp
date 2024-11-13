@@ -27,14 +27,19 @@ void AEnemy::Tick(float DeltaTime)
 
 }
 
-void AEnemy::Destroyed()
+void AEnemy::PathEndReached()
+{
+	
+}
+
+void AEnemy::Die()
 {
 	if(ATDGameMode* Gm_Td = Cast<ATDGameMode>(GetWorld()->GetAuthGameMode()))
 		Gm_Td->DecrementEnemyCount();
 	else
-		UE_LOG(LogTemp, Fatal, TEXT("Can't get GameMode in Enemy ! "));;
+		UE_LOG(LogTemp, Error, TEXT("Can't get GameMode in Enemy ! "));;
 		
-	Super::Destroyed();
+	Destroy();
 	
 }
 

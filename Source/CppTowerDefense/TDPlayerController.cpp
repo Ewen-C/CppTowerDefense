@@ -17,7 +17,7 @@ void ATDPlayerController::BeginPlay()
 	// Input setup
 
 	APlayerController* PlayerController = Cast<APlayerController>(this);
-	if (!(PlayerController && MappingContextTD)) UE_LOG(LogTemp, Fatal, TEXT("Failed input setup ! "));;
+	if (!(PlayerController && MappingContextTD)) UE_LOG(LogTemp, Error, TEXT("Failed input setup ! "));;
 	
     if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
 	    ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -30,7 +30,7 @@ void ATDPlayerController::BeginPlay()
 
 	// HUD setup
 
-    if (WidgetHud == nullptr) UE_LOG(LogTemp, Fatal, TEXT("No WidgetHud assigned ! "));
+    if (WidgetHud == nullptr) UE_LOG(LogTemp, Error, TEXT("No WidgetHud assigned ! "));
 
 	SpawnedWidget = CreateWidget(this, WidgetHud);
 	SpawnedWidget->AddToViewport();
@@ -41,7 +41,7 @@ void ATDPlayerController::SetupInputComponent()
     Super::SetupInputComponent();
 
 	UEnhancedInputComponent* EIC = CastChecked<UEnhancedInputComponent>(InputComponent);
-    if (EIC == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Failed to bind actions ! "));
+    if (EIC == nullptr) UE_LOG(LogTemp, Error, TEXT("Failed to bind actions ! "));
 	
     // Bind all actions
 	
