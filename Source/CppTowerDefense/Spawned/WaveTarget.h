@@ -7,7 +7,7 @@
 #include "WaveTarget.generated.h"
 
 UCLASS()
-class CPPTOWERDEFENSE_API AWaveTarget : public APawn
+class CPPTOWERDEFENSE_API AWaveTarget : public AActor
 {
 	GENERATED_BODY()
 
@@ -22,8 +22,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

@@ -40,7 +40,7 @@ struct FTDEnemyStats : public FTableRowBase  // DataTable -> Inherit from FTable
 };
 
 USTRUCT(BlueprintType)
-struct FTDWaveData : public FTableRowBase  // DataTable -> Inherit from FTableRowBase
+struct FTDWaveComposition : public FTableRowBase  // DataTable -> Inherit from FTableRowBase
 {
 	GENERATED_BODY()
 	
@@ -52,7 +52,7 @@ struct FTDWaveData : public FTableRowBase  // DataTable -> Inherit from FTableRo
     float SpawnInterval = 1.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave Settings")
-    bool SpawnTypesSimultaneously = false;
+    bool SpawnTypesRandomly = false;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave Settings")
     int WaveMoneyReward = 5;	

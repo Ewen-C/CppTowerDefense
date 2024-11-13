@@ -12,7 +12,7 @@ void ATDPlayerState::BeginPlay()
 	if(const ATDGameMode* Gm_Td = Cast<ATDGameMode>(GetWorld()->GetAuthGameMode()))
 		AddMoney(Gm_Td->StartingMoney);
 	else
-		UE_LOG(LogTemp, Error, TEXT("Can't get GameMode in TDPlayerState ! "));
+		UE_LOG(LogTemp, Fatal, TEXT("Can't get GameMode in TDPlayerState ! "));
 }
 
 void ATDPlayerState::AddMoney(const int32 Amount)

@@ -7,9 +7,6 @@
 #include "Spawned/TDWaveManager.h"
 #include "TDGameMode.generated.h"
 
-// Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWaveFinished);
-
 UCLASS()
 class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 {
@@ -18,27 +15,26 @@ class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 public:
 	ATDGameMode();
 	
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Metrics")
     int32 StartingMoney = 8;
 
-	UFUNCTION(BlueprintCallable, Category = "Game Loop")
-	void OnLose();
-
-	UFUNCTION(BlueprintCallable, Category = "Game Loop")
-	void DecrementEnemyCount();
-
-	UFUNCTION(BlueprintCallable, Category = "Game Loop")
+	UFUNCTION(BlueprintCallable, Category = "Game Loop") // Called in HUD
 	void StartWave();
 
-	UFUNCTION(BlueprintCallable, Category = "Game Loop")
+	UFUNCTION()
 	void EndWave();
 
-	// Events
-	FOnWaveFinished OnWaveFinished;
+	UFUNCTION()
+	void OnLose();
 
 protected:
-	// Game state
-	bool WaveOngoing = false;
+	virtual void BeginPlay() override;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Metrics")
+    UDataTable* DTWaveComposition;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Metrics")
+    UDataTable* DTEnemyStats;
 	
     UPROPERTY()
     ATDWaveManager* WaveManager;

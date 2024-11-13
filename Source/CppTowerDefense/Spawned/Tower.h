@@ -7,7 +7,7 @@
 #include "Tower.generated.h"
 
 UCLASS()
-class CPPTOWERDEFENSE_API ATower : public APawn
+class CPPTOWERDEFENSE_API ATower : public AActor
 {
 	GENERATED_BODY()
 
@@ -22,8 +22,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

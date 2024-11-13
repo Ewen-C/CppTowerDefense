@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SplineComponent.h"
 #include "CppTowerDefense/TDDataStructs.h"
-#include "CppTowerDefense/TDGameMode.h"
 #include "Enemy.generated.h"
 
 UCLASS()
