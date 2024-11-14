@@ -20,9 +20,6 @@ void ATDGameMode::BeginPlay()
 
 	WaveManager = Cast<ATDWaveManager>(GetWorld()->SpawnActor(ATDWaveManager::StaticClass()));
 	WaveManager->InitDT(DTWaveComposition, DTEnemyStats);
-	
-	if (DTEnemyStats == nullptr || DTWaveComposition == nullptr)
-		UE_LOG(LogTemp, Fatal, TEXT("DataTables missing !"));
 }
 
 void ATDGameMode::OnLose()
@@ -32,6 +29,9 @@ void ATDGameMode::OnLose()
 
 void ATDGameMode::StartWave()
 {
+	if (DTEnemyStats == nullptr || DTWaveComposition == nullptr)
+		UE_LOG(LogTemp, Fatal, TEXT("DataTables missing !"));
+	
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::StartWave ! "));
 	WaveManager->StartWave();
 }

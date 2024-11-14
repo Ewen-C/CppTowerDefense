@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "CppTowerDefense/TDDataStructs.h"
-#include "Enemy.h"
-#include "Components/SplineComponent.h"
+#include "TDEnemy.h"
+#include "TDWaveTarget.h"
 #include "TDWaveManager.generated.h"
 
 // Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
@@ -17,7 +18,6 @@ class CPPTOWERDEFENSE_API ATDWaveManager : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ATDWaveManager();
 
 	void InitDT(UDataTable* Gm_DTWaveComposition, UDataTable* Gm_DTEnemyStats);
@@ -27,9 +27,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	UFUNCTION()
 	void StartWave();
 
@@ -43,9 +40,9 @@ protected:
 	
     UPROPERTY()
     UDataTable* DTEnemyStats;
-	
-    UPROPERTY(EditInstanceOnly, Category = "Wave Setup")
-    class USplineComponent* PathSpline;
+
+	UPROPERTY()
+	ATDWaveTarget* WaveTarget;
 
 	UPROPERTY() 
     TMap<EEnemyType, int32> SpawnedEnemiesCount;

@@ -3,13 +3,13 @@
 
 #include "TDWaveManager.h"
 
+#include "Engine/SplineMeshActor.h"
+
+
 // Sets default values
 ATDWaveManager::ATDWaveManager()
 {
     PrimaryActorTick.bCanEverTick = false;
-    
-    PathSpline = CreateDefaultSubobject<USplineComponent>("PathSpline");
-    RootComponent = PathSpline;
 }
 
 // Called when the game starts or when spawned
@@ -17,8 +17,12 @@ void ATDWaveManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Get spline paths
+	AActor* FoundActor = UGameplayStatics::GetActorOfClass(GetWorld(), ATDWaveTarget::StaticClass());
+	if(FoundActor == nullptr) UE_LOG(LogTemp, Fatal, TEXT("No AWaveTarget in scene !"));
 	
+	WaveTarget = Cast<ATDWaveTarget>(FoundActor);
+	if(WaveTarget == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Cast to WaveTarget failed !"));
+		
 }
 
 void ATDWaveManager::InitDT(UDataTable* Gm_DTWaveComposition, UDataTable* Gm_DTEnemyStats)
@@ -29,13 +33,6 @@ void ATDWaveManager::InitDT(UDataTable* Gm_DTWaveComposition, UDataTable* Gm_DTE
 	WaveNames = DTWaveComposition->GetRowNames();
 }
 
-// Called every frame
-void ATDWaveManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 void ATDWaveManager::StartWave()
 {
 	// Get current data row
@@ -43,7 +40,7 @@ void ATDWaveManager::StartWave()
 	const FTDWaveComposition* CurrentWaveComp =
 		DTWaveComposition->FindRow<FTDWaveComposition>(WaveNames[CurrentWaveIndex], TEXT(""));
 	
-    if (CurrentWaveComp == nullptr || CurrentWaveComp == NULL) UE_LOG(LogTemp, Error, TEXT("No more wave data ! "));
+    if (CurrentWaveComp == nullptr || CurrentWaveComp == NULL) UE_LOG(LogTemp, Error, TEXT("No more wave data !"));
 
 	// Create array from data map
 
@@ -80,11 +77,36 @@ void ATDWaveManager::SpawnNextEnemy()
 {
 	// Get start of spline path
 
+	FVector SpawnPoint = WaveTarget->GetPathStartLocation();
+
 	// Spawn enemy at the start of the spline path
 
-	// EEnemyType CurrentEnemyType = SpawnEnemyOrder[CurrentEnemyIndex];
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+    // Spawn the enemy
+    ATDEnemy* NewEnemy = GetWorld()->SpawnActor<ATDEnemy>(
+        ATDEnemy::StaticClass()
+    );
+
+	if(NewEnemy == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy spawn failed !"));
+	
+	// NewEnemy->InitializeWithSpline(PathSpline);
 
 	// Load the stats and send them in the enemy constructor 
+
+	EEnemyType CurrentEnemyType = SpawnEnemyOrder[CurrentEnemyIndex];
+
+	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %s"), *UEnum::GetValueAsString(CurrentEnemyType));
+        
+    const FTDEnemyStats* CurrentEnemyStats = DTEnemyStats->FindRow<FTDEnemyStats>(
+        FName(*UEnum::GetValueAsString(CurrentEnemyType)), 
+        TEXT("")
+    );
+
+	// if(CurrentEnemyStats == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy get stats failed !"));
+	
+	// NewEnemy->InitializeStats(CurrentEnemyStats);
 
 	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %i of %i from wave %i"), CurrentEnemyIndex, LastEnemyIndex, CurrentWaveIndex);
 

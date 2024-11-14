@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Tower.generated.h"
+#include "TDTower.generated.h"
 
 UCLASS()
-class CPPTOWERDEFENSE_API ATower : public AActor
+class CPPTOWERDEFENSE_API ATDTower : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	ATower();
+	ATDTower();
 
 protected:
 	// Called when the game starts or when spawned

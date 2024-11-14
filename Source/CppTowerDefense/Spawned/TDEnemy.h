@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "Components/SplineComponent.h"
 #include "CppTowerDefense/TDDataStructs.h"
-#include "Enemy.generated.h"
+#include "TDEnemy.generated.h"
 
 UCLASS()
-class CPPTOWERDEFENSE_API AEnemy : public AActor
+class CPPTOWERDEFENSE_API ATDEnemy : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	AEnemy();
+	ATDEnemy();
 
 protected:
 	// Called when the game starts or when spawned
