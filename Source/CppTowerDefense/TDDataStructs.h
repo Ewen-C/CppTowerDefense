@@ -36,6 +36,9 @@ struct FTDEnemyStats : public FTableRowBase  // DataTable -> Inherit from FTable
     int32 MoneyReward = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+    TSoftObjectPtr<UStaticMesh> EnemyMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
 	TSoftObjectPtr<UMaterialInterface> EnemyMaterial;
 };
 

@@ -86,27 +86,32 @@ void ATDWaveManager::SpawnNextEnemy()
 
     // Spawn the enemy
     ATDEnemy* NewEnemy = GetWorld()->SpawnActor<ATDEnemy>(
-        ATDEnemy::StaticClass()
+        ATDEnemy::StaticClass(),
+        SpawnPoint,
+        FRotator::ZeroRotator,
+        SpawnParams
     );
 
 	if(NewEnemy == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy spawn failed !"));
 	
-	// NewEnemy->InitializeWithSpline(PathSpline);
+	NewEnemy->InitializeSpline(WaveTarget->GetPath());
 
 	// Load the stats and send them in the enemy constructor 
 
-	EEnemyType CurrentEnemyType = SpawnEnemyOrder[CurrentEnemyIndex];
+	FString StringEnemyType = UEnum::GetValueAsString(SpawnEnemyOrder[CurrentEnemyIndex]); // Enum with ::
+	FString SplitEnemyType;
+	StringEnemyType.Split(TEXT("::"), nullptr, &SplitEnemyType); // Right part of enum after ::
 
-	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %s"), *UEnum::GetValueAsString(CurrentEnemyType));
+	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %s"), *SplitEnemyType);
         
     const FTDEnemyStats* CurrentEnemyStats = DTEnemyStats->FindRow<FTDEnemyStats>(
-        FName(*UEnum::GetValueAsString(CurrentEnemyType)), 
+        FName(*SplitEnemyType), 
         TEXT("")
     );
 
-	// if(CurrentEnemyStats == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy get stats failed !"));
+	if(CurrentEnemyStats == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy get stats failed !"));
 	
-	// NewEnemy->InitializeStats(CurrentEnemyStats);
+	NewEnemy->InitializeStats(CurrentEnemyStats);
 
 	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %i of %i from wave %i"), CurrentEnemyIndex, LastEnemyIndex, CurrentWaveIndex);
 

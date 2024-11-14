@@ -15,25 +15,31 @@ class CPPTOWERDEFENSE_API ATDEnemy : public AActor
 public:
 	// Sets default values for this pawn's properties
 	ATDEnemy();
+	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void InitializeSpline(USplineComponent* PathToFollow);
+	void InitializeStats(const FTDEnemyStats* Stats);
 
-	EEnemyType MyEnemyType;
-
-    float DistanceAlongSpline = 0.0f;
+protected:	
+    // Mesh of the enemy
+    UPROPERTY(VisibleAnywhere, Category = "Components")
+    UStaticMeshComponent* EnemyMesh;
 	
 	UPROPERTY() 
-    USplineComponent* PathToFollow;
+    USplineComponent* SplineToFollow;
+
+    float MoveSpeed;
+    float DistanceAlongSpline;
+	float SplineLength;
+
+    UFUNCTION()
+	void MoveAlongPath(float DeltaTime);
 
     UFUNCTION()
     void PathEndReached();
 
 	UFUNCTION()
 	void Die();
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };

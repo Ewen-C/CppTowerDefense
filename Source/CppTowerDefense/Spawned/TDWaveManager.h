@@ -34,15 +34,16 @@ public:
 	FOnWaveFinished OnWaveFinished;
 
 protected:
-	// Get DataTables from GameMode on spawn	
+	// Spline for Enemies
+	UPROPERTY()
+	ATDWaveTarget* WaveTarget;
+	
+	// Get DataTables from GameMode on spawn
     UPROPERTY()
     UDataTable* DTWaveComposition;
 	
     UPROPERTY()
     UDataTable* DTEnemyStats;
-
-	UPROPERTY()
-	ATDWaveTarget* WaveTarget;
 
 	UPROPERTY() 
     TMap<EEnemyType, int32> SpawnedEnemiesCount;
