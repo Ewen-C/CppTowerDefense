@@ -10,7 +10,8 @@
 #include "TDWaveManager.generated.h"
 
 // Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWaveFinished);
+DECLARE_MULTICAST_DELEGATE(FOnWaveSpawnFinished);
+DECLARE_MULTICAST_DELEGATE(FOnAllEnemiesDied);
 
 UCLASS()
 class CPPTOWERDEFENSE_API ATDWaveManager : public AActor
@@ -31,7 +32,8 @@ public:
 	void StartWave();
 
 	// Events
-	FOnWaveFinished OnWaveFinished;
+	FOnWaveSpawnFinished OnWaveSpawnFinished;
+	FOnAllEnemiesDied OnAllEnemiesDied;
 
 protected:
 	// Spline for Enemies
@@ -59,5 +61,10 @@ protected:
 	TArray<FName> WaveNames; // FNames of the DataTable Wave Composition
     FTimerHandle SpawnTimerHandle; // Timer that spawns enemies
 	TArray<EEnemyType> SpawnEnemyOrder; // Array listing all enemies in current wave
+	
+	int32 CurrentEnemyCount = 0;
+
+    UFUNCTION()
+    void EnemyDied();
 
 };

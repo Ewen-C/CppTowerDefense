@@ -20,6 +20,8 @@ void ATDGameMode::BeginPlay()
 
 	WaveManager = Cast<ATDWaveManager>(GetWorld()->SpawnActor(ATDWaveManager::StaticClass()));
 	WaveManager->InitDT(DTWaveComposition, DTEnemyStats);
+
+	WaveManager->OnAllEnemiesDied.AddUObject(this, &ATDGameMode::EndWave); // Bind event
 }
 
 void ATDGameMode::OnLose()
@@ -39,5 +41,6 @@ void ATDGameMode::StartWave()
 void ATDGameMode::EndWave()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATDGameMode::EndWave ! "));
+	OnEnableNewWave.Broadcast();
 }
 

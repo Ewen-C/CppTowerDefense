@@ -7,6 +7,9 @@
 #include "Spawned/TDWaveManager.h"
 #include "TDGameMode.generated.h"
 
+// Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnableNewWave);
+
 UCLASS()
 class CPPTOWERDEFENSE_API ATDGameMode : public AGameModeBase
 {
@@ -38,5 +41,9 @@ protected:
 	
     UPROPERTY()
     ATDWaveManager* WaveManager;
-	
+
+public:
+	// Events
+    UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnEnableNewWave OnEnableNewWave;
 };

@@ -7,6 +7,9 @@
 #include "CppTowerDefense/TDDataStructs.h"
 #include "TDEnemy.generated.h"
 
+// Delegates - must be before the UCLASS ; MULTICAST -> Exposed to BPs
+DECLARE_MULTICAST_DELEGATE(FOnEnemyDeath);
+
 UCLASS()
 class CPPTOWERDEFENSE_API ATDEnemy : public AActor
 {
@@ -35,11 +38,12 @@ protected:
 	float SplineLength;
 
     UFUNCTION()
-	void MoveAlongPath(float DeltaTime);
-
-    UFUNCTION()
-    void PathEndReached();
+	void MoveAlongSpline(float DeltaTime);
 
 	UFUNCTION()
 	void Die();
+
+public:
+	// Events
+	FOnEnemyDeath OnEnemyDeath;
 };

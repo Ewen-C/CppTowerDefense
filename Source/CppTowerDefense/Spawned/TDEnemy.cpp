@@ -28,8 +28,6 @@ void ATDEnemy::InitializeStats(const FTDEnemyStats* Stats)
 	{
 		EnemyMesh->SetStaticMesh(Stats->EnemyMesh.Get());
 
-		UE_LOG(LogTemp, Warning, TEXT("Material : %s"), *Stats->EnemyMaterial.GetAssetName());
-		
 		if(!Stats->EnemyMaterial.IsNull()) EnemyMesh->SetMaterial(0, Stats->EnemyMaterial.LoadSynchronous());
 		else UE_LOG(LogTemp, Error, TEXT("No Material defined for Enemy %p !"), this->GetClass());
 	}
@@ -41,11 +39,13 @@ void ATDEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MoveAlongPath(DeltaTime);
+	MoveAlongSpline(DeltaTime);
 }
 
-void ATDEnemy::MoveAlongPath(float DeltaTime)
+void ATDEnemy::MoveAlongSpline(float DeltaTime)
 {
+	if(SplineToFollow == nullptr) return;
+	
 	DistanceAlongSpline += MoveSpeed * DeltaTime;
 
 	// Check if end reached
@@ -65,23 +65,11 @@ void ATDEnemy::MoveAlongPath(float DeltaTime)
     SetActorLocationAndRotation(NewLocation, NewRotation);
 }
 
-void ATDEnemy::PathEndReached()
-{
-	
-}
-
 void ATDEnemy::Die()
-{
-	// Can't get GameMode -> circular dependency
-	
-	// if(ATDGameMode* Gm_Td = Cast<ATDGameMode>(GetWorld()->GetAuthGameMode()))
-	// 	Gm_Td->DecrementEnemyCount();
-	// else
-	// 	UE_LOG(LogTemp, Error, TEXT("Can't get GameMode in Enemy ! "));;
-	// 	
-	
+{	
 	UE_LOG(LogTemp, Log, TEXT("Enemy died !"));
-	
+
+	OnEnemyDeath.Broadcast();
 	Destroy();	
 }
 

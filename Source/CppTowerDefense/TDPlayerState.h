@@ -32,7 +32,7 @@ public:
     UFUNCTION(BlueprintPure, Category = "Resources")
     int32 GetCurrentMoney() const { return CurrentMoney; }
 
-	// Events	
+	// Events
     UPROPERTY(BlueprintAssignable, Category = "Events")
     FOnInsufficientFunds OnInsufficientFunds;
 	

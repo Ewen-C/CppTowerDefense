@@ -40,15 +40,18 @@ void ATDWaveManager::StartWave()
 	const FTDWaveComposition* CurrentWaveComp =
 		DTWaveComposition->FindRow<FTDWaveComposition>(WaveNames[CurrentWaveIndex], TEXT(""));
 	
-    if (CurrentWaveComp == nullptr || CurrentWaveComp == NULL) UE_LOG(LogTemp, Error, TEXT("No more wave data !"));
+    if (CurrentWaveComp == nullptr || CurrentWaveComp == NULL)
+    	UE_LOG(LogTemp, Fatal, TEXT("No more wave data !"));
 
 	// Create array from data map
 
 	SpawnEnemyOrder.Empty();
+	CurrentEnemyIndex = 0;
 
 	for(const auto& Pair : CurrentWaveComp->EnemyComposition)
 		for (int32 i = 0; i < Pair.Value; i++) SpawnEnemyOrder.Add(Pair.Key); // Add all enemies with their type
 
+	CurrentEnemyCount = SpawnEnemyOrder.Num();
 	LastEnemyIndex = SpawnEnemyOrder.Num() - 1;
 
 	if(CurrentWaveComp->SpawnTypesRandomly)
@@ -82,6 +85,7 @@ void ATDWaveManager::SpawnNextEnemy()
 	// Spawn enemy at the start of the spline path
 
     FActorSpawnParameters SpawnParams;
+    SpawnParams.Owner = this; // Set the ownership to this actor
     SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
     // Spawn the enemy
@@ -93,11 +97,9 @@ void ATDWaveManager::SpawnNextEnemy()
     );
 
 	if(NewEnemy == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy spawn failed !"));
+
+	// Load the spline & stats of the enemy
 	
-	NewEnemy->InitializeSpline(WaveTarget->GetPath());
-
-	// Load the stats and send them in the enemy constructor 
-
 	FString StringEnemyType = UEnum::GetValueAsString(SpawnEnemyOrder[CurrentEnemyIndex]); // Enum with ::
 	FString SplitEnemyType;
 	StringEnemyType.Split(TEXT("::"), nullptr, &SplitEnemyType); // Right part of enum after ::
@@ -112,14 +114,22 @@ void ATDWaveManager::SpawnNextEnemy()
 	if(CurrentEnemyStats == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Enemy get stats failed !"));
 	
 	NewEnemy->InitializeStats(CurrentEnemyStats);
+	NewEnemy->InitializeSpline(WaveTarget->GetPath());
+	NewEnemy->OnEnemyDeath.AddUObject(this, &ATDWaveManager::EnemyDied); // Bind event
 
-	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %i of %i from wave %i"), CurrentEnemyIndex, LastEnemyIndex, CurrentWaveIndex);
+	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %i of %i from wave %i"), CurrentEnemyIndex+1, CurrentEnemyCount, CurrentWaveIndex);
 
 	if(CurrentEnemyIndex == LastEnemyIndex)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(SpawnTimerHandle);
-		OnWaveFinished.Broadcast();
 	}
+	
 	else CurrentEnemyIndex++;
 }
 
+void ATDWaveManager::EnemyDied()
+{
+	CurrentEnemyCount--;
+	UE_LOG(LogTemp, Log, TEXT("Remaining enemies : %i"), CurrentEnemyCount);
+	if(CurrentEnemyCount == 0) OnAllEnemiesDied.Broadcast();
+}
