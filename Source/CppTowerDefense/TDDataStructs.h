@@ -40,6 +40,9 @@ struct FTDEnemyStats : public FTableRowBase  // DataTable -> Inherit from FTable
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
 	TSoftObjectPtr<UMaterialInterface> EnemyMaterial;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+	float TransformSize = 1.f;
 };
 
 USTRUCT(BlueprintType)

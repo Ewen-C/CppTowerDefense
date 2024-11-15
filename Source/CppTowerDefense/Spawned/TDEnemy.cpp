@@ -31,6 +31,7 @@ void ATDEnemy::InitializeStats(const FTDEnemyStats* Stats)
 	if(!Stats->EnemyMesh.IsNull()) 
 	{
 		EnemyMesh->SetStaticMesh(Stats->EnemyMesh.Get());
+		EnemyMesh->SetWorldScale3D(FVector(Stats->TransformSize));
 
 		if(!Stats->EnemyMaterial.IsNull()) EnemyMesh->SetMaterial(0, Stats->EnemyMaterial.LoadSynchronous());
 		else UE_LOG(LogTemp, Error, TEXT("No Material defined for Enemy %p !"), this->GetClass());
