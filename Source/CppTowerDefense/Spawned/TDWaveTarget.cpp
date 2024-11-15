@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TDEnemy.h"
 #include "TDWaveTarget.h"
+#include "TDEnemy.h"
 
 // Sets default values
 ATDWaveTarget::ATDWaveTarget()

@@ -44,7 +44,10 @@ void ATDWaveManager::StartWave()
 		DTWaveComposition->FindRow<FTDWaveComposition>(WaveNames[CurrentWaveIndex], TEXT(""));
 	
     if (CurrentWaveComp == nullptr || CurrentWaveComp == NULL)
-    	UE_LOG(LogTemp, Fatal, TEXT("No more wave data !"));
+    {
+	    UE_LOG(LogTemp, Error, TEXT("No more wave data !"));
+    	return;
+    }
 
 	// Create array from data map
 
@@ -53,6 +56,12 @@ void ATDWaveManager::StartWave()
 
 	for(const auto& Pair : CurrentWaveComp->EnemyComposition)
 		for (int32 i = 0; i < Pair.Value; i++) SpawnEnemyOrder.Add(Pair.Key); // Add all enemies with their type
+
+	if(SpawnEnemyOrder.Num() == 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Empty wave !"));
+		return;
+	}
 
 	CurrentEnemyCount = SpawnEnemyOrder.Num();
 	LastEnemyIndex = SpawnEnemyOrder.Num() - 1;
@@ -68,6 +77,11 @@ void ATDWaveManager::StartWave()
 	
 	CurrentWaveIndex++;
 
+	// Spawn first enemy (to not wait for first timer)
+
+	SpawnNextEnemy();
+	if(CurrentEnemyIndex == LastEnemyIndex + 1) return;
+
 	// Spawn enemies continuously
     
     GetWorldTimerManager().SetTimer(
@@ -81,8 +95,8 @@ void ATDWaveManager::StartWave()
 
 void ATDWaveManager::SpawnNextEnemy()
 {
-	UE_LOG(LogTemp, Log, TEXT("CurrentEnemyIndex : %i"), CurrentEnemyIndex);
-	UE_LOG(LogTemp, Log, TEXT("LastEnemyIndex : %i"), LastEnemyIndex);
+	// UE_LOG(LogTemp, Log, TEXT("CurrentEnemyIndex : %i"), CurrentEnemyIndex);
+	// UE_LOG(LogTemp, Log, TEXT("LastEnemyIndex : %i"), LastEnemyIndex);
 	
 	// Get start of spline path
 
@@ -125,7 +139,7 @@ void ATDWaveManager::SpawnNextEnemy()
 
 	UE_LOG(LogTemp, Log, TEXT("Spawned enemy %i of %i from wave %i"), CurrentEnemyIndex+1, CurrentEnemyCount, CurrentWaveIndex);
 
-	if(CurrentEnemyIndex == LastEnemyIndex)
+	if(CurrentEnemyIndex == LastEnemyIndex && SpawnTimerHandle.IsValid())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(SpawnTimerHandle);
 	}

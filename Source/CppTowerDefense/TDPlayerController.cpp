@@ -30,10 +30,10 @@ void ATDPlayerController::BeginPlay()
 
 	// HUD setup
 
-    if (WidgetHud == nullptr) UE_LOG(LogTemp, Error, TEXT("No WidgetHud assigned ! "));
+    if (WidgetHud == nullptr) UE_LOG(LogTemp, Fatal, TEXT("No WidgetHud assigned ! "));
 
-	SpawnedWidget = CreateWidget(this, WidgetHud);
-	SpawnedWidget->AddToViewport();
+	SpawnedWidgetHud = CreateWidget(this, WidgetHud);
+	SpawnedWidgetHud->AddToViewport();
 }
 
 void ATDPlayerController::SetupInputComponent()
@@ -92,5 +92,16 @@ void ATDPlayerController::HandleCancel()
 void ATDPlayerController::HandlePause() 
 {
 	UE_LOG(LogTemp, Warning, TEXT("HandlePause ! "));
+}
+
+
+void ATDPlayerController::ShowGameOver()
+{
+	// if (SpawnedWidgetHud != nullptr) SpawnedWidgetHud->RemoveFromParent();
+	
+    if (WidgetGameOver == nullptr) UE_LOG(LogTemp, Fatal, TEXT("No WidgetGameOver assigned ! "));
+
+	SpawnedWidgetGameOver = CreateWidget(this, WidgetGameOver);
+	SpawnedWidgetGameOver->AddToViewport();
 }
 

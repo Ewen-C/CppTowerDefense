@@ -50,6 +50,9 @@ protected:
     void HandleSelect();
     void HandleCancel();
     void HandlePause();
+	
+    UFUNCTION(BlueprintCallable, Category = "TD|Widgets")
+	void ShowGameOver();
 
     // Camera settings
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Camera")
@@ -75,6 +78,12 @@ protected:
 	TSubclassOf<UUserWidget> WidgetHud;
 
     UPROPERTY()
-	UUserWidget* SpawnedWidget;
+	UUserWidget* SpawnedWidgetHud;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TD|Widgets")
+	TSubclassOf<UUserWidget> WidgetGameOver;
+
+    UPROPERTY()
+	UUserWidget* SpawnedWidgetGameOver;
 	
 };
