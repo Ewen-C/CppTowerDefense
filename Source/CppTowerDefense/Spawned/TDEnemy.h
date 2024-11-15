@@ -33,6 +33,8 @@ protected:
 	UPROPERTY() 
     USplineComponent* SplineToFollow;
 
+	const FTDEnemyStats* EnemyStats; 
+
     float MoveSpeed;
     float DistanceAlongSpline;
 	float SplineLength;
@@ -40,10 +42,12 @@ protected:
     UFUNCTION()
 	void MoveAlongSpline(float DeltaTime);
 
+public:
+	const FTDEnemyStats* GetStats() const { return EnemyStats; }
+	
 	UFUNCTION()
 	void Die();
-
-public:
+	
 	// Events
 	FOnEnemyDeath OnEnemyDeath;
 };

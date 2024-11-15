@@ -10,6 +10,9 @@
 ATDWaveManager::ATDWaveManager()
 {
     PrimaryActorTick.bCanEverTick = false;
+	
+    // Dummy root component
+    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
 // Called when the game starts or when spawned
@@ -59,13 +62,13 @@ void ATDWaveManager::StartWave()
 		for (int32 i = 0; i < LastEnemyIndex - 1; i++)
 		{
 			const int32 RandIndex = FMath::RandRange(i+1, LastEnemyIndex);
-			SpawnEnemyOrder.Swap(i, LastEnemyIndex);
+			SpawnEnemyOrder.Swap(RandIndex, LastEnemyIndex);
 		}
 	}
-
-	// Spawn enemies continuously
 	
 	CurrentWaveIndex++;
+
+	// Spawn enemies continuously
     
     GetWorldTimerManager().SetTimer(
         SpawnTimerHandle,
@@ -78,6 +81,9 @@ void ATDWaveManager::StartWave()
 
 void ATDWaveManager::SpawnNextEnemy()
 {
+	UE_LOG(LogTemp, Log, TEXT("CurrentEnemyIndex : %i"), CurrentEnemyIndex);
+	UE_LOG(LogTemp, Log, TEXT("LastEnemyIndex : %i"), LastEnemyIndex);
+	
 	// Get start of spline path
 
 	FVector SpawnPoint = WaveTarget->GetPathStartLocation();

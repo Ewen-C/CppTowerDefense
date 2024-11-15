@@ -3,6 +3,9 @@
 
 #include "TDEnemy.h"
 
+#include "CppTowerDefense/TDPlayerState.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 ATDEnemy::ATDEnemy()
 {
@@ -22,7 +25,8 @@ void ATDEnemy::InitializeSpline(USplineComponent* PathToFollow)
 
 void ATDEnemy::InitializeStats(const FTDEnemyStats* Stats)
 {
-	MoveSpeed = Stats->MovementSpeed;
+	EnemyStats = Stats;
+	MoveSpeed = EnemyStats->MovementSpeed;
 
 	if(!Stats->EnemyMesh.IsNull()) 
 	{
@@ -69,7 +73,13 @@ void ATDEnemy::Die()
 {	
 	UE_LOG(LogTemp, Log, TEXT("Enemy died !"));
 
+	AActor* FoundActor = UGameplayStatics::GetActorOfClass(GetWorld(), ATDPlayerState::StaticClass());
+	if(FoundActor == nullptr) UE_LOG(LogTemp, Fatal, TEXT("Can't get ATDPlayerState in Enemy !"));
+
+	ATDPlayerState* TD_PS = Cast<ATDPlayerState>(FoundActor);
+	TD_PS->AddMoney(EnemyStats->MoneyReward);
+
 	OnEnemyDeath.Broadcast();
-	Destroy();	
+	Destroy();
 }
 
